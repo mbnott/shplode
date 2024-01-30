@@ -13,7 +13,7 @@ namespace shplode.Classes
 
         public Player(Sprite sprite, int x, int y, int height, int width) : base(sprite, x, y, height, width)
         {
-        
+            
         }
 
         /* 1 2 3
