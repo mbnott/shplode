@@ -36,8 +36,11 @@ namespace shplode
             // Loading textures
             _textures.Add("shploder", Content.Load<Texture2D>("shploder"));
 
-            // Loading sprites
-            _player = new Player(new Sprite(_textures["shploder"], 5, 100, 100, 10), 20, 20, 50, 50);
+            // Creating Sprites
+            Sprite playerSprite = new Sprite(_textures["shploder"], 5, 100, 100, 10);
+
+            // Creating entities
+            _player = new Player(playerSprite, 20, 20, 50, 50);
         }
 
         protected override void Update(GameTime gameTime)
@@ -45,7 +48,7 @@ namespace shplode
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _player.Start();
+            _player.Sprite.Start();
             _player.Update();
 
             base.Update(gameTime);
@@ -56,7 +59,7 @@ namespace shplode
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            _spriteBatch.Draw(_player.GetTexture(), new Rectangle(0, 0, 100, 100) , _player.GetRectangle(), Color.White);
+            _spriteBatch.Draw(_player.Sprite.GetTexture(), _player.GetPosition(), _player.Sprite.GetRectangle(), Color.White);
 
             _spriteBatch.End();
             base.Draw(gameTime);

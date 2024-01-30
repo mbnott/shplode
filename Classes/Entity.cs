@@ -17,6 +17,8 @@ namespace shplode
         protected int _height;
         protected int _width;
 
+        public Sprite Sprite { get => _sprite; }
+
         public Entity(Sprite sprite, int x, int y, int height, int width) { 
             _sprite = sprite;
             _x = x;
@@ -25,14 +27,19 @@ namespace shplode
             _width = width;
         }
 
+        public void Update()
+        {
+            Sprite.Update();
+        }
+
         public Rectangle GetPosition()
         {
-
+            return new Rectangle(_x, _y, _width, _height);
         }
 
         public bool Collides(Rectangle target)
         {
-            return false;
+            return false; // TODO
         }
     }
 }
