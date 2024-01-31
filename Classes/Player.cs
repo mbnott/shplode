@@ -16,10 +16,6 @@ namespace shplode.Classes
 
         }
 
-        /* 1 2 3
-         * 4 5 6 epic directions
-         * 7 8 9
-         */
         public void Move(Direction direction)
         {
             switch (direction)
