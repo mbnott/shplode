@@ -9,24 +9,50 @@ namespace shplode.Classes
 {
     public class Player : Entity
     {
-        const int speed = 3;
+        private const int Speed = 3;
 
         public Player(Sprite sprite, int x, int y, int height, int width) : base(sprite, x, y, height, width)
         {
-            
+
         }
 
         /* 1 2 3
          * 4 5 6 epic directions
          * 7 8 9
          */
-        public void Move(int direction)
+        public void Move(Direction direction)
         {
-            if (direction <= 3) _y -= speed;
-            else if (direction >= 7) _y += speed;
-
-            if (direction % 3 == 1) _x -= speed;
-            else if (direction % 3 == 0) _x += speed;
+            switch (direction)
+            {
+                case Direction.Left:
+                    _x -= Speed;
+                    break;
+                case Direction.Right:
+                    _x += Speed;
+                    break;
+                case Direction.Top:
+                    _y -= Speed;
+                    break;
+                case Direction.Bottom:
+                    _y += Speed;
+                    break;
+                case Direction.TopLeft:
+                    _x -= Speed;
+                    _y -= Speed;
+                    break;
+                case Direction.BottomLeft:
+                    _x -= Speed;
+                    _y += Speed;
+                    break;
+                case Direction.TopRight:
+                    _x += Speed;
+                    _y -= Speed;
+                    break;
+                case Direction.BottomRight:
+                    _x += Speed;
+                    _y += Speed;
+                    break;
+            }
         }
     }
 }
