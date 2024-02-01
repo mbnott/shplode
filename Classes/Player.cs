@@ -9,11 +9,11 @@ namespace shplode.Classes
 {
     public class Player : Entity
     {
-        private const int Speed = 3;
+        private int _speed;
 
-        public Player(Sprite sprite, int x, int y, int height, int width) : base(sprite, x, y, height, width)
+        public Player(Sprite sprite, int x, int y, int height, int width, int speed = 3) : base(sprite, x, y, height, width)
         {
-
+            _speed = speed;
         }
 
         public void Move(Direction direction)
@@ -21,32 +21,16 @@ namespace shplode.Classes
             switch (direction)
             {
                 case Direction.Left:
-                    _x -= Speed;
+                    _x -= _speed;
                     break;
                 case Direction.Right:
-                    _x += Speed;
+                    _x += _speed;
                     break;
-                case Direction.Top:
-                    _y -= Speed;
+                case Direction.Up:
+                    _y -= _speed;
                     break;
-                case Direction.Bottom:
-                    _y += Speed;
-                    break;
-                case Direction.TopLeft:
-                    _x -= Speed;
-                    _y -= Speed;
-                    break;
-                case Direction.BottomLeft:
-                    _x -= Speed;
-                    _y += Speed;
-                    break;
-                case Direction.TopRight:
-                    _x += Speed;
-                    _y -= Speed;
-                    break;
-                case Direction.BottomRight:
-                    _x += Speed;
-                    _y += Speed;
+                case Direction.Down:
+                    _y += _speed;
                     break;
             }
         }

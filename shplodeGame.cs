@@ -40,15 +40,24 @@ namespace shplode
             Sprite playerSprite = new Sprite(_textures["shploder"], 5, 100, 100, 10);
 
             // Creating entities
-            _player = new Player(playerSprite, 20, 20, 50, 50);
+            _player = new Player(playerSprite, 20, 20, 50, 50, 10);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
+            // Use once
             _player.Sprite.Start();
+
+            // Keyboard inputs
+            KeyboardState state = Keyboard.GetState();
+
+            // Kinda wish there was a better way to do this
+            if (state.IsKeyDown(Keys.W)) _player.Move(Direction.Up);
+            if (state.IsKeyDown(Keys.A)) _player.Move(Direction.Left);
+            if (state.IsKeyDown(Keys.S)) _player.Move(Direction.Down);
+            if (state.IsKeyDown(Keys.D)) _player.Move(Direction.Right);
+
+            // Object updates
             _player.Update();
 
             base.Update(gameTime);
