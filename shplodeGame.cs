@@ -26,8 +26,8 @@ namespace shplode
         protected override void Initialize()
         {
             _graphics.IsFullScreen = false;
-            _graphics.PreferredBackBufferWidth = 1200;
-            _graphics.PreferredBackBufferHeight = 800;
+            _graphics.PreferredBackBufferWidth = 1000;
+            _graphics.PreferredBackBufferHeight = 1000;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -39,20 +39,23 @@ namespace shplode
 
             // Loading textures
             _textures.Add("shploder", Content.Load<Texture2D>("shploder"));
+            _textures.Add("kamikaze", Content.Load<Texture2D>("kamikaze"));
 
             // Creating Sprites
-            Sprite playerSprite = new Sprite(_textures["shploder"], 5, 100, 100, 10);
+            Sprite playerSprite = new Sprite(_textures["shploder"], 5, 10);
+            Sprite kamikazeSprite = new Sprite(_textures["kamikaze"], 5, 10);
 
             // Creating entities
-            _player = new Player(playerSprite, 20, 20, 50, 50, 10);
+            _player = new Player(playerSprite, 500, 800, 50, 50, 5);
 
+            // Enemy paths
             EnemyPath basicPath = new EnemyPath(new List<EnemyWaypoint>()
             {
-                new EnemyWaypoint(50, 50, 600),
-                new EnemyWaypoint(400, 600)
+                new EnemyWaypoint(500, -100, 600),
+                new EnemyWaypoint(500, 1100)
             });
 
-            _enemy = new Enemy(playerSprite, basicPath , 100, 100);
+            _enemy = new Enemy(kamikazeSprite, basicPath, 100, 60);
 
         }
 
@@ -66,10 +69,10 @@ namespace shplode
             KeyboardState state = Keyboard.GetState();
 
             // Kinda wish there was a better way to do this
-            if (state.IsKeyDown(Keys.W)) _player.Move(Direction.Up);
-            if (state.IsKeyDown(Keys.A)) _player.Move(Direction.Left);
-            if (state.IsKeyDown(Keys.S)) _player.Move(Direction.Down);
-            if (state.IsKeyDown(Keys.D)) _player.Move(Direction.Right);
+            if (state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up)) _player.Move(Direction.Up);
+            if (state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left)) _player.Move(Direction.Left);
+            if (state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down)) _player.Move(Direction.Down);
+            if (state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right)) _player.Move(Direction.Right);
 
             // Entity updates
             _player.Update();
