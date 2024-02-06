@@ -13,6 +13,7 @@ namespace shplode
         private SpriteBatch _spriteBatch;
         private Dictionary<string, Texture2D> _textures;
         private Player _player;
+        private Enemy _enemy;
 
         public shplodeGame()
         {
@@ -44,12 +45,22 @@ namespace shplode
 
             // Creating entities
             _player = new Player(playerSprite, 20, 20, 50, 50, 10);
+
+            EnemyPath basicPath = new EnemyPath(new List<EnemyWaypoint>()
+            {
+                new EnemyWaypoint(50, 50, 600),
+                new EnemyWaypoint(400, 600)
+            });
+
+            _enemy = new Enemy(playerSprite, basicPath , 100, 100);
+
         }
 
         protected override void Update(GameTime gameTime)
         {
-            // Use once
+            // Starting animations (to get rid of later)
             _player.Sprite.Start();
+            _enemy.Sprite.Start();
 
             // Keyboard inputs
             KeyboardState state = Keyboard.GetState();
@@ -60,8 +71,11 @@ namespace shplode
             if (state.IsKeyDown(Keys.S)) _player.Move(Direction.Down);
             if (state.IsKeyDown(Keys.D)) _player.Move(Direction.Right);
 
-            // Object updates
+            // Entity updates
             _player.Update();
+
+            _enemy.Path.Start();
+            _enemy.Update();
 
             base.Update(gameTime);
         }
@@ -71,7 +85,15 @@ namespace shplode
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+            // Drawing background
+
+            // Drawing bullets?
+
+            // Drawing player
             _spriteBatch.Draw(_player.Sprite.GetTexture(), _player.GetPosition(), _player.Sprite.GetRectangle(), Color.White);
+
+            // Drawing enemies
+            _spriteBatch.Draw(_enemy.Sprite.GetTexture(), _enemy.GetPosition(), _enemy.Sprite.GetRectangle(), Color.White);
 
             _spriteBatch.End();
             base.Draw(gameTime);

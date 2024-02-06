@@ -12,8 +12,8 @@ namespace shplode
     public abstract class Entity
     {
         protected Sprite _sprite;
-        protected int _x;
-        protected int _y;
+        protected float _x;
+        protected float _y;
         protected int _height;
         protected int _width;
 
@@ -34,7 +34,7 @@ namespace shplode
 
         public Rectangle GetPosition()
         {
-            return new Rectangle(_x, _y, _width, _height);
+            return new Rectangle((int)_x, (int)_y, _width, _height);
         }
 
         public bool Collides(Rectangle target)
