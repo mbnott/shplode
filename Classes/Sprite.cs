@@ -19,7 +19,7 @@ namespace shplode.Classes
         private int _currentInterval;
         private bool _active;
 
-        public Sprite(Texture2D texture, int totalFrames, int width, int height ,int interval = 1)
+        public Sprite(Texture2D texture, int totalFrames, int interval = 1)
         {
             _texture = texture;
             _currentFrame = 0;
