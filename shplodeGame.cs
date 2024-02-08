@@ -48,13 +48,14 @@ namespace shplode
             // Creating entities
             _player = new Player(playerSprite, 500, 800, 50, 50, 5);
 
-            // Enemy paths
+            // Creating enemy paths
             EnemyPath basicPath = new EnemyPath(new List<EnemyWaypoint>()
             {
                 new EnemyWaypoint(500, -100, 600),
                 new EnemyWaypoint(500, 1100)
             });
 
+            // Creating enemies
             _enemy = new Enemy(kamikazeSprite, basicPath, 100, 60);
 
         }
@@ -89,6 +90,7 @@ namespace shplode
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             // Drawing background
+
 
             // Drawing bullets?
 
