@@ -2,20 +2,19 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using shplode.Classes;
-using System;
 using System.Collections.Generic;
 
 namespace shplode
 {
-    public class shplodeGame : Game
+    public class ShplodeGame : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Dictionary<string, Texture2D> _textures;
+        private readonly Dictionary<string, Texture2D> _textures;
         private Player _player;
         private Enemy _enemy;
 
-        public shplodeGame()
+        public ShplodeGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             _textures = new Dictionary<string, Texture2D>();

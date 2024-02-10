@@ -1,15 +1,10 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace shplode.Classes
 {
     public class Player : Entity
     {
-        private int _speed;
+        private readonly int _speed;
 
         public Player(Sprite sprite, int x, int y, int height, int width, int speed = 3) : base(sprite, x, y, height, width)
         {
@@ -32,6 +27,8 @@ namespace shplode.Classes
                 case Direction.Down:
                     _y += _speed;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
         }
     }

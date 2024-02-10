@@ -1,21 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace shplode.Classes
 {
     public class Sprite
     {
-        private Texture2D _texture;
+        private readonly Texture2D _texture;
         private int _currentFrame;
-        private int _frameWidth;
-        private int _totalFrames;
-        private int _interval;
+        private readonly int _frameWidth;
+        private readonly int _totalFrames;
+        private readonly int _interval;
         private int _currentInterval;
         private bool _active;
 

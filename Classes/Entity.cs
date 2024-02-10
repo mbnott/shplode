@@ -1,21 +1,12 @@
-﻿using shplode.Classes;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 
-namespace shplode
+namespace shplode.Classes
 {
     public abstract class Entity
     {
-        protected Sprite _sprite;
-        protected float _x;
-        protected float _y;
-        protected int _height;
-        protected int _width;
+        private readonly Sprite _sprite;
+        protected float _x, _y;
+        private readonly int _height, _width;
 
         public Sprite Sprite { get => _sprite; }
 

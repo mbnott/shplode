@@ -1,9 +1,10 @@
-namespace shplode.Classes;
-
-public enum Direction
-{ 
-    Left,
-    Right,
-    Up,
-    Down
+namespace shplode.Classes
+{
+    public enum Direction
+    { 
+        Left,
+        Right,
+        Up,
+        Down
+    }
 }

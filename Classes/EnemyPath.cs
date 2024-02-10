@@ -10,7 +10,7 @@ namespace shplode.Classes
     /// </summary>
     public class EnemyPath
     {
-        private List<EnemyWaypoint> _waypoints;
+        private readonly List<EnemyWaypoint> _waypoints;
         private int _current; // Current waypoint the entity is moving FROM
         private int _progress; // Current waypoint distance progression till next waypoint
         private bool _active;
@@ -83,19 +83,16 @@ namespace shplode.Classes
 
         public Vector2 GetCurrentPosition()
         {
-            if (!_done)
-            {
-                float x = ShplodeMaths.Lerp(
-                    _waypoints[_current].GetPosition().X,
-                    _waypoints[_current + 1].GetPosition().X,
-                    (float)_progress / _waypoints[_current].GetDistance());
-                float y = ShplodeMaths.Lerp(
-                    _waypoints[_current].GetPosition().Y,
-                    _waypoints[_current + 1].GetPosition().Y,
-                    (float)_progress / _waypoints[_current].GetDistance());
-                return new Vector2(x, y);
-            }
-            return _waypoints.Last().GetPosition();
+            if (_done) return _waypoints.Last().GetPosition();
+            float x = ShplodeMaths.Lerp(
+                _waypoints[_current].GetPosition().X,
+                _waypoints[_current + 1].GetPosition().X,
+                (float)_progress / _waypoints[_current].GetDistance());
+            float y = ShplodeMaths.Lerp(
+                _waypoints[_current].GetPosition().Y,
+                _waypoints[_current + 1].GetPosition().Y,
+                (float)_progress / _waypoints[_current].GetDistance());
+            return new Vector2(x, y);
         }
     }
 }

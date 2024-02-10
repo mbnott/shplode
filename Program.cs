@@ -1,3 +1,3 @@
 ﻿
-using var game = new shplode.shplodeGame();
+using var game = new shplode.ShplodeGame();
 game.Run();
