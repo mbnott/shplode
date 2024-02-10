@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace shplode.Classes
+﻿namespace shplode.Classes.GameElements
 {
-    public class Player : Entity
+    public class Player : GameEntity
     {
         private readonly int _speed;
 
@@ -27,8 +25,6 @@ namespace shplode.Classes
                 case Direction.Down:
                     _y += _speed;
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
         }
     }

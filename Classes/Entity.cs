@@ -6,31 +6,26 @@ namespace shplode.Classes
     {
         private readonly Sprite _sprite;
         protected float _x, _y;
-        private readonly int _height, _width;
+        protected int _width, _height;
 
         public Sprite Sprite { get => _sprite; }
 
-        public Entity(Sprite sprite, int x, int y, int height, int width) { 
+        protected Entity(Sprite sprite, float x, float y, int width, int height) { 
             _sprite = sprite;
             _x = x;
             _y = y;
-            _height = height;
             _width = width;
+            _height = height;
         }
-
-        public void Update()
-        {
-            Sprite.Update();
-        }
-
+        
         public Rectangle GetPosition()
         {
             return new Rectangle((int)_x, (int)_y, _width, _height);
         }
 
-        public bool Collides(Rectangle target)
+        public void Update()
         {
-            return false; // TODO
+            Sprite.Update();
         }
     }
 }

@@ -1,18 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace shplode.Classes
+namespace shplode.Classes.Pathing
 {
     /// <summary>
     /// Single waypoint an entity can move to/from using EntityPath
     /// </summary>
-    public class EnemyWaypoint
+    public class Waypoint
     {
         private readonly float _x;
         private readonly float _y;
         private readonly int _distance; // Amount of positions the entity will have to travel before getting to the next waypoint
         private readonly int _pauseTime; // Amount of milliseconds the entity will stay on this waypoint for
 
-        public EnemyWaypoint(int x, int y, int distance = 0, int pauseTime = 0) 
+        public Waypoint(int x, int y, int distance = 0, int pauseTime = 0) 
         {
             _x = x;
             _y = y;

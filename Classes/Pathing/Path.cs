@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace shplode.Classes
+namespace shplode.Classes.Pathing
 {
     /// <summary>
     /// Property to add to an entity. Allows it to move from waypoints to other waypoints.
     /// Stays static on last waypoint
     /// </summary>
-    public class EnemyPath
+    public class Path
     {
-        private readonly List<EnemyWaypoint> _waypoints;
+        private readonly List<Waypoint> _waypoints;
         private int _current; // Current waypoint the entity is moving FROM
         private int _progress; // Current waypoint distance progression till next waypoint
         private bool _active;
@@ -21,10 +21,10 @@ namespace shplode.Classes
         /// </summary>
         /// <param name="spawnX"></param>
         /// <param name="spawnY"></param>
-        public EnemyPath(int spawnX, int spawnY) {
-            _waypoints = new List<EnemyWaypoint>()
+        public Path(int spawnX, int spawnY) {
+            _waypoints = new List<Waypoint>()
             {
-                new EnemyWaypoint(spawnX, spawnY)
+                new Waypoint(spawnX, spawnY)
             };
             _current = 0;
             _progress = 0;
@@ -36,7 +36,7 @@ namespace shplode.Classes
         /// Several waypoint path
         /// </summary>
         /// <param name="waypoints"></param>
-        public EnemyPath(List<EnemyWaypoint> waypoints)
+        public Path(List<Waypoint> waypoints)
         {
             _waypoints = waypoints;
             _current = 0;
@@ -47,7 +47,7 @@ namespace shplode.Classes
 
         public void AddWaypoint(int x, int y, int waitTime)
         {
-            _waypoints.Add(new EnemyWaypoint(x, y, waitTime));
+            _waypoints.Add(new Waypoint(x, y, waitTime));
         }
 
         public void Start()

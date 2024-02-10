@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using shplode.Classes;
+using shplode.Classes.GameElements;
+using shplode.Classes.Pathing;
 using System.Collections.Generic;
 
 namespace shplode
@@ -48,10 +50,10 @@ namespace shplode
             _player = new Player(playerSprite, 500, 800, 50, 50, 5);
 
             // Creating enemy paths
-            EnemyPath basicPath = new EnemyPath(new List<EnemyWaypoint>()
+            Path basicPath = new Path(new List<Waypoint>()
             {
-                new EnemyWaypoint(500, -100, 600),
-                new EnemyWaypoint(500, 1100)
+                new Waypoint(500, -100, 600),
+                new Waypoint(500, 1100)
             });
 
             // Creating enemies
@@ -68,7 +70,7 @@ namespace shplode
             // Keyboard inputs
             KeyboardState state = Keyboard.GetState();
 
-            // Kinda wish there was a better way to do this
+            // Player movement
             if (state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up)) _player.Move(Direction.Up);
             if (state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left)) _player.Move(Direction.Left);
             if (state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down)) _player.Move(Direction.Down);
