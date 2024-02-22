@@ -4,28 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace shplode.Classes.GameElements
+namespace shplode.Classes.GameElements.Stats
 {
-    /// <summary>
-    /// Basic stats for enemies and players
-    /// </summary>
-    public class Stats
+    public class CombatStats : Stats
     {
+        // Unchanging stats
         private int _maxHealth;
-        private int _health;
-        private int _baseDamage;
         private int _bodyDamage;
+        private int _invulnerability;
+
+        // Dynamic stats
+        private int _health;
+        private int _invLeft;
 
         public int MaxHealth { get => _maxHealth; }
         public int Health { get => _health; }
-        public int BaseDamage { get => _baseDamage; }
         public int BodyDamage { get => _bodyDamage; }
 
-        public Stats(int maxHealth, int baseDamage, int bodyDamage) {
+        public CombatStats(int maxHealth, int baseDamage, int bodyDamage, int invulnerability = 4) : base(baseDamage)
+        {
             _maxHealth = maxHealth;
             _health = maxHealth;
-            _baseDamage = baseDamage;
             _bodyDamage = bodyDamage;
+            _invulnerability = invulnerability;
+            _invLeft = 0;
         }
 
         /// <summary>
@@ -35,8 +37,21 @@ namespace shplode.Classes.GameElements
         /// <returns>False if the health is still over 0, true otherwise</returns>
         public bool Hurt(int damage)
         {
-            _health -= damage;
+            if (_invLeft <= 0)
+            {
+                _health -= damage;
+                _invLeft = _invulnerability;
+            }
             return _health <= 0;
+        }
+
+        /// <summary>
+        /// Updates stats like invulnerability left and whatnot
+        /// </summary>
+        public void Update()
+        {
+            if (_invLeft < 0)
+                _invLeft--;
         }
     }
 }

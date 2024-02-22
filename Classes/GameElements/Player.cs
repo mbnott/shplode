@@ -1,13 +1,12 @@
-﻿namespace shplode.Classes.GameElements
+﻿using shplode.Classes.GameElements.Stats;
+
+namespace shplode.Classes.GameElements
 {
-    public class Player : GameEntity
+    public class Player : CombatEntity
     {
         private readonly int _speed;
-        private Stats _stats;
 
-        public Stats Stats { get => _stats; }
-
-        public Player(Sprite sprite, int x, int y, int height, int width, int speed = 3) : base(sprite, x, y, height, width)
+        public Player(Sprite sprite, int x, int y, int height, int width, CombatStats stats, int speed) : base(sprite, x, y, height, width, stats)
         {
             _speed = speed;
         }

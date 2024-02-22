@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using shplode.Classes;
 using shplode.Classes.GameElements;
 using shplode.Classes.Pathing;
+using shplode.Classes.GameElements.Stats;
 using System.Collections.Generic;
 
 namespace shplode
@@ -22,6 +23,8 @@ namespace shplode
         // CONTENT
         private Player _player;
         private List<Enemy> _enemies;
+        private List<Log> _logs;
+        private bool _showLogs;
 
         public ShplodeGame()
         {
@@ -100,6 +103,7 @@ namespace shplode
                 if (CollisionManager.CheckCollision(enemy.BoundingBox, _player.BoundingBox))
                 {
                     _enemies.Remove(enemy);
+                    break;
                 }
             }
 

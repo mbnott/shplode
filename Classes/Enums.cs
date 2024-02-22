@@ -7,4 +7,13 @@ namespace shplode.Classes
         Up,
         Down
     }
+
+    public enum LogLevel
+    {
+        Critical,
+        Error,
+        Warning,
+        Info,
+        Debug
+    }
 }
