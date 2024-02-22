@@ -1,4 +1,4 @@
-namespace shplode.Classes.BackgroundElements
+namespace shplode.Classes.BgElements
 {
     public class Background
     {

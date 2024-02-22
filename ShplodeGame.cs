@@ -10,16 +10,24 @@ namespace shplode
 {
     public class ShplodeGame : Game
     {
+        // GRAPHICS
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private readonly Dictionary<string, Texture2D> _textures;
+
+        // CONSTANTS
+        const int GameWidth = 1000;
+        const int GameHeight = 1000;
+
+        // CONTENT
         private Player _player;
-        private Enemy _enemy;
+        private List<Enemy> _enemies;
 
         public ShplodeGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             _textures = new Dictionary<string, Texture2D>();
+            _enemies = new List<Enemy>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -27,8 +35,8 @@ namespace shplode
         protected override void Initialize()
         {
             _graphics.IsFullScreen = false;
-            _graphics.PreferredBackBufferWidth = 1000;
-            _graphics.PreferredBackBufferHeight = 1000;
+            _graphics.PreferredBackBufferWidth = GameWidth;
+            _graphics.PreferredBackBufferHeight = GameHeight;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -57,7 +65,7 @@ namespace shplode
             });
 
             // Creating enemies
-            _enemy = new Enemy(kamikazeSprite, basicPath, 100, 60);
+            _enemies.Add(new Enemy(kamikazeSprite, basicPath, 100, 60));
 
         }
 
@@ -65,7 +73,8 @@ namespace shplode
         {
             // Starting animations (to get rid of later)
             _player.Sprite.Start();
-            _enemy.Sprite.Start();
+            foreach (var enemy in _enemies) 
+                enemy.Sprite.Start();
 
             // Keyboard inputs
             KeyboardState state = Keyboard.GetState();
@@ -79,8 +88,20 @@ namespace shplode
             // Entity updates
             _player.Update();
 
-            _enemy.Path.Start();
-            _enemy.Update();
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.Update();
+                enemy.Path.Start();
+            }
+
+            // Checking collisions
+            foreach (Enemy enemy in _enemies)
+            {
+                if (CollisionManager.CheckCollision(enemy.BoundingBox, _player.BoundingBox))
+                {
+                    _enemies.Remove(enemy);
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -92,14 +113,14 @@ namespace shplode
 
             // Drawing background
 
-
             // Drawing bullets?
 
             // Drawing player
-            _spriteBatch.Draw(_player.Sprite.GetTexture(), _player.GetPosition(), _player.Sprite.GetRectangle(), Color.White);
+            _spriteBatch.Draw(_player.Sprite.GetTexture(), _player.GetRectangle(), _player.Sprite.GetRectangle(), Color.White);
 
             // Drawing enemies
-            _spriteBatch.Draw(_enemy.Sprite.GetTexture(), _enemy.GetPosition(), _enemy.Sprite.GetRectangle(), Color.White);
+            foreach (Enemy enemy in _enemies)
+                _spriteBatch.Draw(enemy.Sprite.GetTexture(), enemy.GetRectangle(), enemy.Sprite.GetRectangle(), Color.White);
 
             _spriteBatch.End();
             base.Draw(gameTime);

@@ -3,6 +3,9 @@
     public class Player : GameEntity
     {
         private readonly int _speed;
+        private Stats _stats;
+
+        public Stats Stats { get => _stats; }
 
         public Player(Sprite sprite, int x, int y, int height, int width, int speed = 3) : base(sprite, x, y, height, width)
         {

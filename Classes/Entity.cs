@@ -18,7 +18,7 @@ namespace shplode.Classes
             _height = height;
         }
         
-        public Rectangle GetPosition()
+        public Rectangle GetRectangle()
         {
             return new Rectangle((int)_x, (int)_y, _width, _height);
         }
