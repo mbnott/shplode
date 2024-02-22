@@ -58,7 +58,7 @@ namespace shplode
             Sprite kamikazeSprite = new Sprite(_textures["kamikaze"], 5, 10);
 
             // Creating entities
-            _player = new Player(playerSprite, 500, 800, 50, 50, 5);
+            _player = new Player(playerSprite, 500, 800, 50, 50, new CombatStats(100, 10, 10), 5);
 
             // Creating enemy paths
             Path basicPath = new Path(new List<Waypoint>()
@@ -68,7 +68,7 @@ namespace shplode
             });
 
             // Creating enemies
-            _enemies.Add(new Enemy(kamikazeSprite, basicPath, 100, 60));
+            _enemies.Add(new Enemy(kamikazeSprite, basicPath, 100, 60, new CombatStats(30, 10, 10)));
 
         }
 
@@ -97,13 +97,21 @@ namespace shplode
                 enemy.Path.Start();
             }
 
-            // Checking collisions
-            foreach (Enemy enemy in _enemies)
-            {
-                if (CollisionManager.CheckCollision(enemy.BoundingBox, _player.BoundingBox))
+            // Checking collisions and dealing damage
+            for(int i = 0; i < _enemies.Count; i++) {
+                if (CollisionManager.CheckCollision(_enemies[i].BoundingBox, _player.BoundingBox))
                 {
-                    _enemies.Remove(enemy);
-                    break;
+                    bool isPlayerDead = _player.Stats.Hurt(_enemies[i].Stats.BodyDamage);
+                    if (isPlayerDead)
+                    {
+                        this.Exit();
+                    }
+                    bool isEnemyDead = _enemies[i].Stats.Hurt(_player.Stats.BodyDamage);
+                    if (isEnemyDead)
+                    {
+                        _enemies.RemoveAt(i);
+                        i--;
+                    }
                 }
             }
 

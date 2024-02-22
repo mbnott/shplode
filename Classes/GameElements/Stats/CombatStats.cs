@@ -50,7 +50,7 @@ namespace shplode.Classes.GameElements.Stats
         /// </summary>
         public void Update()
         {
-            if (_invLeft < 0)
+            if (_invLeft > 0)
                 _invLeft--;
         }
     }

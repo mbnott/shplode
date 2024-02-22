@@ -13,10 +13,17 @@ namespace shplode.Classes.GameElements
     public abstract class CombatEntity : GameEntity
     {
         private CombatStats _stats;
+        public CombatStats Stats { get => _stats; }
 
         public CombatEntity(Sprite sprite, float x, float y, int width, int height, CombatStats stats) : base(sprite, x, y, width, height)
         {
             _stats = stats;
+        }
+
+        public new void Update()
+        {
+            _stats.Update();
+            base.Update();
         }
     }
 }
