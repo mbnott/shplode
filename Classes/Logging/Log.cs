@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace shplode.Classes
+namespace shplode.Classes.Logs
 {
     public class Log
     {
@@ -16,7 +16,8 @@ namespace shplode.Classes
         public string Message { get => _message; }
         public LogLevel Level { get => _level; }
 
-        public Log(int time, string message, LogLevel level) {
+        public Log(int time, string message, LogLevel level)
+        {
             _time = time;
             _message = message;
             _level = level;

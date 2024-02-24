@@ -6,6 +6,8 @@ using shplode.Classes.GameElements;
 using shplode.Classes.Pathing;
 using shplode.Classes.GameElements.Stats;
 using System.Collections.Generic;
+using shplode.Classes.Logs;
+using shplode.Classes.Effects;
 
 namespace shplode
 {
@@ -15,6 +17,7 @@ namespace shplode
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private readonly Dictionary<string, Texture2D> _textures;
+        private readonly Dictionary<string, SpriteFont> _fonts;
 
         // CONSTANTS
         const int GameWidth = 1000;
@@ -30,6 +33,7 @@ namespace shplode
         {
             _graphics = new GraphicsDeviceManager(this);
             _textures = new Dictionary<string, Texture2D>();
+            _fonts = new Dictionary<string, SpriteFont>();
             _enemies = new List<Enemy>();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -49,16 +53,20 @@ namespace shplode
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Initializing game managers
+            EffectsManager.Initialize();
+
             // Loading textures
             _textures.Add("shploder", Content.Load<Texture2D>("shploder"));
             _textures.Add("kamikaze", Content.Load<Texture2D>("kamikaze"));
+            _fonts.Add("basic", Content.Load<SpriteFont>("DamageIndicator"));
 
             // Creating Sprites
             Sprite playerSprite = new Sprite(_textures["shploder"], 5, 10);
             Sprite kamikazeSprite = new Sprite(_textures["kamikaze"], 5, 10);
 
-            // Creating entities
-            _player = new Player(playerSprite, 500, 800, 50, 50, new CombatStats(100, 10, 10), 5);
+            // Creating player
+            _player = new Player(playerSprite, 500, 800, 50, 50, new CombatStats(500, 10, 10), 5);
 
             // Creating enemy paths
             Path basicPath = new Path(new List<Waypoint>()
@@ -69,7 +77,6 @@ namespace shplode
 
             // Creating enemies
             _enemies.Add(new Enemy(kamikazeSprite, basicPath, 100, 60, new CombatStats(30, 10, 10)));
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,7 +95,8 @@ namespace shplode
             if (state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down)) _player.Move(Direction.Down);
             if (state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right)) _player.Move(Direction.Right);
 
-            // Entity updates
+            // Updates
+            EffectsManager.Update();
             _player.Update();
 
             foreach (Enemy enemy in _enemies)
@@ -101,13 +109,13 @@ namespace shplode
             for(int i = 0; i < _enemies.Count; i++) {
                 if (CollisionManager.CheckCollision(_enemies[i].BoundingBox, _player.BoundingBox))
                 {
-                    bool isPlayerDead = _player.Stats.Hurt(_enemies[i].Stats.BodyDamage);
-                    if (isPlayerDead)
+                    bool isPlayerAlive = _player.Hurt(_enemies[i].Stats.BaseDamage);
+                    if (!isPlayerAlive)
                     {
                         this.Exit();
                     }
-                    bool isEnemyDead = _enemies[i].Stats.Hurt(_player.Stats.BodyDamage);
-                    if (isEnemyDead)
+                    bool isEnemyAlive = _enemies[i].Hurt(_enemies[i].Stats.BaseDamage);
+                    if (!isEnemyAlive)
                     {
                         _enemies.RemoveAt(i);
                         i--;
@@ -133,6 +141,10 @@ namespace shplode
             // Drawing enemies
             foreach (Enemy enemy in _enemies)
                 _spriteBatch.Draw(enemy.Sprite.GetTexture(), enemy.GetRectangle(), enemy.Sprite.GetRectangle(), Color.White);
+
+            // Drawing Effects
+            foreach (DamageIndicator indicator in EffectsManager.GetDamageIndicators())
+                _spriteBatch.DrawString(_fonts["basic"], indicator.Value, indicator.GetLocation(), indicator.GetColor());
 
             _spriteBatch.End();
             base.Draw(gameTime);

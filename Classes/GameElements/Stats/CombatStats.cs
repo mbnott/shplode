@@ -9,9 +9,9 @@ namespace shplode.Classes.GameElements.Stats
     public class CombatStats : Stats
     {
         // Unchanging stats
-        private int _maxHealth;
-        private int _bodyDamage;
-        private int _invulnerability;
+        private readonly int _maxHealth;
+        private readonly int _bodyDamage;
+        private readonly int _invulnerability;
 
         // Dynamic stats
         private int _health;
@@ -21,7 +21,7 @@ namespace shplode.Classes.GameElements.Stats
         public int Health { get => _health; }
         public int BodyDamage { get => _bodyDamage; }
 
-        public CombatStats(int maxHealth, int baseDamage, int bodyDamage, int invulnerability = 4) : base(baseDamage)
+        public CombatStats(int maxHealth, int baseDamage, int bodyDamage, int invulnerability = 16) : base(baseDamage)
         {
             _maxHealth = maxHealth;
             _health = maxHealth;
@@ -31,18 +31,19 @@ namespace shplode.Classes.GameElements.Stats
         }
 
         /// <summary>
-        /// Damages the entity
+        /// Attempts to deal damage to the entity
         /// </summary>
         /// <param name="damage">Amount of health to subtract from the health</param>
-        /// <returns>False if the health is still over 0, true otherwise</returns>
-        public bool Hurt(int damage)
+        /// <returns>False if the entity is invincible, true otherwise</returns>
+        public bool DealDamage(int damage)
         {
             if (_invLeft <= 0)
             {
                 _health -= damage;
                 _invLeft = _invulnerability;
+                return true;
             }
-            return _health <= 0;
+            return false;
         }
 
         /// <summary>
