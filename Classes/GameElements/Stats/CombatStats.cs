@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace shplode.Classes.GameElements.Stats
 {
-    public class CombatStats : Stats
+    public class CombatStats
     {
         // Unchanging stats
         private readonly int _maxHealth;
         private readonly int _bodyDamage;
         private readonly int _invulnerability;
+        protected int _baseDamage;
 
         // Dynamic stats
         private int _health;
@@ -20,11 +21,13 @@ namespace shplode.Classes.GameElements.Stats
         public int MaxHealth { get => _maxHealth; }
         public int Health { get => _health; }
         public int BodyDamage { get => _bodyDamage; }
+        public int BaseDamage { get => _baseDamage; }
 
-        public CombatStats(int maxHealth, int baseDamage, int bodyDamage, int invulnerability = 16) : base(baseDamage)
+        public CombatStats(int maxHealth, int baseDamage, int bodyDamage, int invulnerability = 16)
         {
             _maxHealth = maxHealth;
             _health = maxHealth;
+            _baseDamage = baseDamage;
             _bodyDamage = bodyDamage;
             _invulnerability = invulnerability;
             _invLeft = 0;

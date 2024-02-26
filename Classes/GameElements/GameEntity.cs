@@ -7,6 +7,7 @@ namespace shplode.Classes.GameElements
     /// </summary>
     public abstract class GameEntity : Entity
     {
+
         public Rectangle BoundingBox
         {
             get { return new Rectangle((int)_x, (int)_y, _width, _height); }

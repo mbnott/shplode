@@ -29,6 +29,8 @@ namespace shplode
         private List<Log> _logs;
         private bool _showLogs;
 
+        // BulletManager, EffectsManager and CollisionManager are also static classes used by the program
+
         public ShplodeGame()
         {
             _graphics = new GraphicsDeviceManager(this);
