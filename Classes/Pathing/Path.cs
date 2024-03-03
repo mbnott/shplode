@@ -33,7 +33,7 @@ namespace shplode.Classes.Pathing
         }
 
         /// <summary>
-        /// Several waypoint path
+        /// Multiple waypoint path
         /// </summary>
         /// <param name="waypoints"></param>
         public Path(List<Waypoint> waypoints)

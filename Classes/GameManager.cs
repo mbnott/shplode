@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace shplode.Classes.GameElements.Projectiles
+namespace shplode.Classes
 {
-    public static class BulletManager
+    public static class GameManager
     {
         // TODO
     }

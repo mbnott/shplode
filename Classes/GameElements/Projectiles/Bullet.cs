@@ -1,5 +1,6 @@
 ﻿using shplode.Classes.GameElements.Stats;
 using shplode.Classes.Pathing;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,15 @@ namespace shplode.Classes.GameElements.Projectiles
 {
     public class Bullet : GameEntity
     {
-        Path _path;
-        GameEntity _owner;
-        BulletStats _stats;
+        private readonly Path _path;
+        private readonly GameEntity _owner;
+        private readonly BulletStats _stats;
 
-        GameEntity Owner { get => _owner; }
-        BulletStats Stats { get => _stats; }
+        public Path Path { get => _path; }
+        public GameEntity Owner { get => _owner; }
+        public BulletStats Stats { get => _stats; }
 
-        public Bullet(Sprite sprite, GameEntity owner, Path path, BulletStats stats, int x, int y, int width, int height) : base(sprite, x, y, width, height)
+        public Bullet(Sprite sprite, GameEntity owner, Path path, BulletStats stats, int width, int height) : base(sprite, path.GetCurrentPosition().X, path.GetCurrentPosition().Y, width, height)
         {
             _path = path;
             _owner = owner;
@@ -31,6 +33,9 @@ namespace shplode.Classes.GameElements.Projectiles
         public new void Update()
         {
             _path.Move();
+            Vector2 coords = _path.GetCurrentPosition();
+            _x = coords.X;
+            _y = coords.Y;
             base.Update();
         }
     }

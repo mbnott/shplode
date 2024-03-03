@@ -8,6 +8,8 @@ using shplode.Classes.GameElements.Stats;
 using System.Collections.Generic;
 using shplode.Classes.Logs;
 using shplode.Classes.Effects;
+using shplode.Classes.GameElements.Projectiles;
+using Microsoft.Xna.Framework.Content;
 
 namespace shplode
 {
@@ -16,8 +18,8 @@ namespace shplode
         // GRAPHICS
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private readonly Dictionary<string, Texture2D> _textures;
-        private readonly Dictionary<string, SpriteFont> _fonts;
+        private Dictionary<string, Texture2D> _textures;
+        private Dictionary<string, SpriteFont> _fonts;
 
         // CONSTANTS
         const int GameWidth = 1000;
@@ -29,7 +31,7 @@ namespace shplode
         private List<Log> _logs;
         private bool _showLogs;
 
-        // BulletManager, EffectsManager and CollisionManager are also static classes used by the program
+        // BulletsManager, EffectsManager and CollisionManager are also static classes used by the program
 
         public ShplodeGame()
         {
@@ -57,11 +59,13 @@ namespace shplode
 
             // Initializing game managers
             EffectsManager.Initialize();
+            BulletsManager.Initialize();
 
             // Loading textures
             _textures.Add("shploder", Content.Load<Texture2D>("shploder"));
             _textures.Add("kamikaze", Content.Load<Texture2D>("kamikaze"));
-            _fonts.Add("basic", Content.Load<SpriteFont>("DamageIndicator"));
+            _textures.Add("playerBullet", Content.Load<Texture2D>("playerBullet"));
+            _fonts.Add("damageIndicator", Content.Load<SpriteFont>("DamageIndicator"));
 
             // Creating Sprites
             Sprite playerSprite = new Sprite(_textures["shploder"], 5, 10);
@@ -70,7 +74,7 @@ namespace shplode
             // Creating player
             _player = new Player(playerSprite, 500, 800, 50, 50, new CombatStats(500, 10, 10), 5);
 
-            // Creating enemy paths
+            // Creating paths
             Path basicPath = new Path(new List<Waypoint>()
             {
                 new Waypoint(500, -100, 600),
@@ -96,9 +100,11 @@ namespace shplode
             if (state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left)) _player.Move(Direction.Left);
             if (state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down)) _player.Move(Direction.Down);
             if (state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right)) _player.Move(Direction.Right);
+            if (state.IsKeyDown(Keys.Y)) _player.Shoot(_textures["playerBullet"]);
 
             // Updates
             EffectsManager.Update();
+            BulletsManager.Update();
             _player.Update();
 
             foreach (Enemy enemy in _enemies)
@@ -108,7 +114,13 @@ namespace shplode
             }
 
             // Checking collisions and dealing damage
-            for(int i = 0; i < _enemies.Count; i++) {
+            List<Bullet> bullets = BulletsManager.GetBullets();
+
+            for (int i = 0; i < _enemies.Count; i++) {
+                // Maybe i could implement enemies colliding with bullets, idk man my programming skills and logic just can't compute this project anymore
+                // I'll just find different ways to restructure the project, and it'll eventually get fixed i hope
+                
+                // if player itself touches enemy
                 if (CollisionManager.CheckCollision(_enemies[i].BoundingBox, _player.BoundingBox))
                 {
                     bool isPlayerAlive = _player.Hurt(_enemies[i].Stats.BaseDamage);
@@ -116,7 +128,7 @@ namespace shplode
                     {
                         this.Exit();
                     }
-                    bool isEnemyAlive = _enemies[i].Hurt(_enemies[i].Stats.BaseDamage);
+                    bool isEnemyAlive = _enemies[i].Hurt(_player.Stats.BaseDamage);
                     if (!isEnemyAlive)
                     {
                         _enemies.RemoveAt(i);
@@ -134,8 +146,11 @@ namespace shplode
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             // Drawing background
+            // TODO
 
-            // Drawing bullets?
+            // Drawing bullets
+            foreach (Bullet bullet in BulletsManager.GetBullets())
+                _spriteBatch.Draw(bullet.Sprite.GetTexture(), bullet.GetRectangle(), bullet.Sprite.GetRectangle(), Color.White);
 
             // Drawing player
             _spriteBatch.Draw(_player.Sprite.GetTexture(), _player.GetRectangle(), _player.Sprite.GetRectangle(), Color.White);
@@ -146,7 +161,7 @@ namespace shplode
 
             // Drawing Effects
             foreach (DamageIndicator indicator in EffectsManager.GetDamageIndicators())
-                _spriteBatch.DrawString(_fonts["basic"], indicator.Value, indicator.GetLocation(), indicator.GetColor());
+                _spriteBatch.DrawString(_fonts["damageIndicator"], indicator.Value, indicator.GetLocation(), indicator.GetColor());
 
             _spriteBatch.End();
             base.Draw(gameTime);
